@@ -1,0 +1,28 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+
+# Create input data
+X = np.random.rand(100, 2) # Two inputs
+y = (X[:, 0] < X[:, 1]).astype(int) # Output as binary classification
+
+# Create model
+model = keras.Sequential([
+    keras.layers.Dense(16, activation='relu', input_shape=(2,)),
+    keras.layers.Dense(1, activation='sigmoid')
+])
+
+# Compile model
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Train model
+model.fit(X, y, epochs=10, batch_size=10)
+
+# Test model
+test_X = np.random.rand(10, 2) # New input data for testing
+test_y = (test_X[:, 0] < test_X[:, 1]).astype(int) # Expected output for testing
+test_loss, test_acc = model.evaluate(test_X, test_y, verbose=2)
+
+print('Test accuracy:', test_acc)
+
+
